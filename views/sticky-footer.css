@@ -7,10 +7,10 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background: -webkit-linear-gradient(white 70%,green 75%, white 80%); /*Safari 5.1-6*/
-    background: -o-linear-gradient(white 70%,green 75%, white 80%); /*Opera 11.1-12*/
-    background: -moz-linear-gradient(white 70%,green 75%, white 80%); /*Fx 3.6-15*/
-    background: linear-gradient(white 70%,green 75%, white 80%);/*Standard*/
+    background: -webkit-linear-gradient(white 65%,green 70%, white 75%); /*Safari 5.1-6*/
+    background: -o-linear-gradient(white 65%,green 70%, white 75%); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(white 65%,green 70%, white 75%); /*Fx 3.6-15*/
+    background: linear-gradient(papayawhip 65%,green 70%, papayawhip 75%);/*Standard*/
 }
 .footer {
     position: absolute;

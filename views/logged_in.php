@@ -1,7 +1,7 @@
 <?php include_once 'header.html';?>
     <div class="container">
 
-      <p>Hello <?php $_SESSION['username']?>!</p>
+      <p>Hello <?php echo $_SESSION['user_name'];?>!</p>
         <p><a href="index.php?logout">Logout</a></p>
 
     </div>
