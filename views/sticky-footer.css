@@ -1,0 +1,32 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background: -webkit-linear-gradient(white 70%,green 75%, white 80%); /*Safari 5.1-6*/
+    background: -o-linear-gradient(white 70%,green 75%, white 80%); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(white 70%,green 75%, white 80%); /*Fx 3.6-15*/
+    background: linear-gradient(white 70%,green 75%, white 80%);/*Standard*/
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+.parent {
+    display: table;
+    table-layout: fixed;
+}
+.child {
+    display:table-cell;
+    vertical-align:middle;
+    text-align:center;
+}
+
