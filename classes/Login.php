@@ -114,9 +114,9 @@ class Login
     public function doLogout()
     {
         // delete the session of the user
-      //  $_SESSION = array();
-       // session_destroy();
-        unset($_SESSION['user_name']);
+        $_SESSION = array();
+        session_destroy();
+
         // return a little feeedback message
         $this->messages[] = "Zostałeś wylogowany!";
 
