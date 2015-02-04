@@ -39,6 +39,15 @@ class Login
         }
     }
 
+    /** function saves current user's data to database
+     * @param $user_name
+     */
+    public function notifyLogged($user_name){
+        $sql = "INSERT INTO currentUsers (name, time)
+                            VALUES('" . $user_name . "', 'date('Y-m-d H:i:s')')";
+        $this->db_connection->query($sql);
+
+    }
     /**
      * log in with post data
      */
@@ -86,7 +95,7 @@ class Login
                         $_SESSION['user_name'] = $result_row->user_name;
                         $_SESSION['user_email'] = $result_row->user_email;
                         $_SESSION['user_login_status'] = 1;
-
+                        $this->notifyLogged($user_name);
                     } else {
                         $this->errors[] = "Złe hasło.";
                     }
@@ -105,8 +114,9 @@ class Login
     public function doLogout()
     {
         // delete the session of the user
-        $_SESSION = array();
-        session_destroy();
+      //  $_SESSION = array();
+       // session_destroy();
+        unset($_SESSION['user_name']);
         // return a little feeedback message
         $this->messages[] = "Zostałeś wylogowany!";
 
