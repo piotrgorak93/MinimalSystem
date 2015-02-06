@@ -1,9 +1,9 @@
 <?php
-
 /**
  * Class login
  * handles the user's login and logout process
  */
+
 class Login
 {
     /**
@@ -69,16 +69,12 @@ class Login
         $connection= new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
         $sql = "DELETE FROM currentUsers WHERE name='$username'";
-      //  echo "getDbConnection()";
-        //$result_of_login_check = $connection->query($sql);
-     if ($connection->query($sql) === TRUE) {
-            echo "";
+      if ($connection->query($sql) === TRUE) {
+
         } else {
             echo "Error deleting record: " . $connection->error;
         }
-      //  mysqli_query($this->db_connection->query(),$sql);
 
-  //$query_user_delete = $this->db_connection->query($sql);
     }
     /**
      * log in with post data
@@ -154,7 +150,8 @@ class Login
         $this->removeFromCurrentLogged($user);
 
         // return a little feeedback message
-        $this->messages[] = "Zostałeś wylogowany!";
+        //$this->messages[] = "Zostałeś wylogowany!";
+
 
     }
 

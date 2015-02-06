@@ -2,8 +2,8 @@
 
 <div class="container">
 
-    <h1>Hello <?php echo $_SESSION['user_name'];?>!</h1>
-    <p>You logged in at <?php echo date('Y-m-d H:i:s');?></p>
+    <h1>Witaj <?php echo $_SESSION['user_name'];?>!</h1>
+    <p>Data i godzina zalogowania: <?php echo date('Y-m-d H:i:s');?></p>
     <p><a href="index.php?logout">Logout</a></p>
 </div>
 </div>

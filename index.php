@@ -24,6 +24,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 require_once("config/db.php");
 
 // load the login class
+//require_once("views/popup.html");
 require_once("classes/Login.php");
 
 // create a login object. when this object is created, it will do all login/logout stuff automatically
