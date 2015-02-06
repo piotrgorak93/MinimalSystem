@@ -1,0 +1,31 @@
+<div class="container">
+
+<div class="col-sm-4 col-md-4 col-lg-4"></div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <form class="form-signin" method="post" action="register.php" name="registerform">
+                <h2 class="form-signin-heading">Rejestracja</h2>
+
+
+                    <input id="login_input_username" class="form-control" type="text" pattern="[a-zA-Z0-9]{2,64}"
+                           name="user_name" required placeholder="Podaj login" style="margin-bottom: 2px"/>
+
+                    <!-- the email input field uses a HTML5 email type check -->
+
+
+                    <input id="login_input_email" class="form-control" type="email" name="user_email"
+                           placeholder="E-mail" required style="margin-bottom: 2px"/>
+
+                    <input id="login_input_password_new" class="form-control" type="password" name="user_password_new"
+                           pattern=".{6,}" required autocomplete="off" placeholder="Podaj hasło" style="margin-bottom: 2px"/>
+
+                    <input id="login_input_password_repeat" class="form-control" type="password"
+                           name="user_password_repeat" pattern=".{6,}" required autocomplete="off"
+                           placeholder="Powtórz hasło" style="margin-bottom: 2px"/>
+
+                    <input type="submit" name="register" value="Załóż konto" class="btn btn-lg btn-primary btn-block" />
+                <!-- backlink -->
+                <p><a href="index.php">Wróć do strony logowania</a></p>
+            </form>
+
+    </div>
+</div>
