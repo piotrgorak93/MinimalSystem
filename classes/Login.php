@@ -9,7 +9,23 @@ class Login
     /**
      * @var object The database connection
      */
-    private $db_connection = null;
+    private $db_connection;
+
+    /**
+     * @return object
+     */
+    public function getDbConnection()
+    {
+        return $this->db_connection;
+    }
+
+    /**
+     * @param object $db_connection
+     */
+    public function setDbConnection($db_connection)
+    {
+        $this->db_connection = $db_connection;
+    }
     /**
      * @var array Collection of error messages
      */
@@ -42,16 +58,32 @@ class Login
     /** function saves current user's data to database
      * @param $user_name
      */
-    public function notifyLogged($user_name){
+    public function addToCurrentLogged($user_name){
         $sql = "INSERT INTO currentUsers (name, time)
-                            VALUES('" . $user_name . "', 'date('Y-m-d H:i:s')')";
-        $this->db_connection->query($sql);
+                            VALUES('$user_name',now() )";
+        $query_new_user_insert = $this->getDbConnection()->query($sql);
 
+
+    }
+    public function removeFromCurrentLogged($username){
+        $connection= new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        echo "User ".$username;
+        $sql = "DELETE FROM currentUsers WHERE name='$username'";
+      //  echo "getDbConnection()";
+        //$result_of_login_check = $connection->query($sql);
+     if ($connection->query($sql) === TRUE) {
+            echo "";
+        } else {
+            echo "Error deleting record: " . $connection->error;
+        }
+      //  mysqli_query($this->db_connection->query(),$sql);
+
+  //$query_user_delete = $this->db_connection->query($sql);
     }
     /**
      * log in with post data
      */
-    private function dologinWithPostData()
+    public function dologinWithPostData()
     {
         // check login form contents
         if (empty($_POST['user_name'])) {
@@ -61,25 +93,25 @@ class Login
         } elseif (!empty($_POST['user_name']) && !empty($_POST['user_password'])) {
 
             // create a database connection, using the constants from config/db.php (which we loaded in index.php)
-            $this->db_connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
+            $this->setDbConnection(new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME));
+            echo "getDbConnection()";
             // change character set to utf8 and check it
-            if (!$this->db_connection->set_charset("utf8")) {
-                $this->errors[] = $this->db_connection->error;
+            if (!$this->getDbConnection()->set_charset("utf8")) {
+                $this->errors[] = $this->getDbConnection()>error;
             }
 
             // if no connection errors (= working database connection)
-            if (!$this->db_connection->connect_errno) {
+            if (!$this->getDbConnection()->connect_errno) {
 
                 // escape the POST stuff
-                $user_name = $this->db_connection->real_escape_string($_POST['user_name']);
+                $user_name = $this->getDbConnection()->real_escape_string($_POST['user_name']);
 
                 // database query, getting all the info of the selected user (allows login via email address in the
                 // username field)
                 $sql = "SELECT user_name, user_email, user_password_hash
                         FROM users
                         WHERE user_name = '" . $user_name . "' OR user_email = '" . $user_name . "';";
-                $result_of_login_check = $this->db_connection->query($sql);
+                $result_of_login_check = $this->getDbConnection()->query($sql);
 
                 // if this user exists
                 if ($result_of_login_check->num_rows == 1) {
@@ -95,7 +127,7 @@ class Login
                         $_SESSION['user_name'] = $result_row->user_name;
                         $_SESSION['user_email'] = $result_row->user_email;
                         $_SESSION['user_login_status'] = 1;
-                        $this->notifyLogged($user_name);
+                        $this->addToCurrentLogged($user_name);
                     } else {
                         $this->errors[] = "Złe hasło.";
                     }
@@ -110,12 +142,16 @@ class Login
 
     /**
      * perform the logout
+     *
      */
     public function doLogout()
     {
+        $user=$_SESSION['user_name'];
         // delete the session of the user
         $_SESSION = array();
+        echo $user;
         session_destroy();
+        $this->removeFromCurrentLogged($user);
 
         // return a little feeedback message
         $this->messages[] = "Zostałeś wylogowany!";
