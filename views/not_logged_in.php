@@ -20,4 +20,5 @@ if (isset($_GET["logout"])) {
 
 include_once 'form.html';
 include_once 'footer.html';
+
 ?>

@@ -1,10 +1,13 @@
 <script>
     jQuery(function(){
         jQuery('#modal').click();
-        document.getElementById("modal").style.visibility = "hidden";
+      //  document.getElementById("modal").style.visibility = "hidden";
     });
+    function reloadPage(){
+        window.location = ".";
+    }
 </script>
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="modal" hidden="hidden">
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="modal" style="visibility: hidden"">
 
 </button>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -18,7 +21,7 @@
                 Zostałeś wylogowany!
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="reloadPage()">Zamknij</button>
             </div>
         </div>
     </div>
