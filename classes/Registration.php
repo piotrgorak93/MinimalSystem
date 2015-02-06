@@ -100,17 +100,24 @@ class Registration
                     $query_new_user_insert = $this->db_connection->query($sql);
 
                     // if user has been added successfully
+
                     if ($query_new_user_insert) {
-                        $this->messages[] = "Your account has been created successfully. You can now log in.";
+                        /** trigger the popup */
+                        new Popup("Konto zostało założone, teraz możesz się zalogować", "index.php");
+
+                      //  $this->messages[] = "Your account has been created successfully. You can now log in.";
                     } else {
-                        $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
+                        new Popup("Podczas zakładania konta wystąpił błąd, spróbuj ponownie", "register.php");
+                       // $this->errors[] = "Sorry, your registration failed. Please go back and try again.";
                     }
                 }
             } else {
-                $this->errors[] = "Sorry, no database connection.";
+                new Popup("Problem z połaczeniem do bazy danych", "'index.php'");
+             //   $this->errors[] = "Sorry, no database connection.";
             }
         } else {
-            $this->errors[] = "An unknown error occurred.";
+            new Popup("Wystąpił nieznany bład", "index.php");
+            //$this->errors[] = "An unknown error occurred.";
         }
     }
 }

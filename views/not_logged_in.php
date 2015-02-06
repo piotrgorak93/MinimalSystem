@@ -15,7 +15,8 @@ if (isset($login)) {
 
 include_once 'header.html';
 if (isset($_GET["logout"])) {
-    include_once 'popup.html';
+    include_once 'popup.php';
+    new Popup("Zostałeś wylogowany!","index.php");
 }
 
 include_once 'form.html';
