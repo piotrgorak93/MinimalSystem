@@ -67,7 +67,7 @@ class Login
     }
     public function removeFromCurrentLogged($username){
         $connection= new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-        echo "User ".$username;
+
         $sql = "DELETE FROM currentUsers WHERE name='$username'";
       //  echo "getDbConnection()";
         //$result_of_login_check = $connection->query($sql);
@@ -94,7 +94,7 @@ class Login
 
             // create a database connection, using the constants from config/db.php (which we loaded in index.php)
             $this->setDbConnection(new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME));
-            echo "getDbConnection()";
+
             // change character set to utf8 and check it
             if (!$this->getDbConnection()->set_charset("utf8")) {
                 $this->errors[] = $this->getDbConnection()>error;
@@ -149,7 +149,7 @@ class Login
         $user=$_SESSION['user_name'];
         // delete the session of the user
         $_SESSION = array();
-        echo $user;
+
         session_destroy();
         $this->removeFromCurrentLogged($user);
 
