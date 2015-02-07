@@ -3,9 +3,10 @@
  * Class login
  * handles the user's login and logout process
  */
-
+include 'views/popup.php';
 class Login
 {
+
     /**
      * @var object The database connection
      */
@@ -125,13 +126,16 @@ class Login
                         $_SESSION['user_login_status'] = 1;
                         $this->addToCurrentLogged($user_name);
                     } else {
-                        $this->errors[] = "Złe hasło.";
+                        new Popup("Błedne hasło","index.php");
+                      //  $this->errors[] = "Złe hasło.";
                     }
                 } else {
-                    $this->errors[] = "Ten użytkownik nie istnieje.";
+                    new Popup("Ten użytkownik nie istnieje","index.php");
+                    //$this->errors[] = "Ten użytkownik nie istnieje.";
                 }
             } else {
-                $this->errors[] = "Database connection problem.";
+                new Popup("Problem z połączeniem z bazą danych","index.php");
+               // $this->errors[] = "Database connection problem.";
             }
         }
     }

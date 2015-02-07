@@ -12,8 +12,8 @@ if (isset($registration)) {
         }
     }
 }
-include_once 'header.html';
-include_once 'register_view.html';
-include_once 'footer.html';
+include 'header.html';
+include 'register_view.html';
+include 'footer.html';
 ?>
 

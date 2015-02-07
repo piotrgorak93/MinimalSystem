@@ -1,7 +1,13 @@
 <?php
-/** this class is responsible for throwing Popup window, actually it's a template */
+/** this class is responsible for throwing Popup window, actually it's a template
+ * @author Piotr Górak*/
 class Popup{
-function __construct($komunikat, $redirect){
+    /**
+     * @param $komunikat do popupa
+     * @param $redirect - path to redirect
+     */
+    function __construct($komunikat, $redirect){
+        include 'header.html';
     echo "<script>
     jQuery(function(){
         jQuery('#modal').click();

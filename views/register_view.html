@@ -7,7 +7,7 @@
 
 
                     <input id="login_input_username" class="form-control" type="text" pattern="[a-zA-Z0-9]{2,64}"
-                           name="user_name" required placeholder="Podaj login" style="margin-bottom: 2px"/>
+                           name="user_name" required placeholder="Podaj login" title="Minimum 2, maksimum 64 znaki" style="margin-bottom: 2px"/>
 
                     <!-- the email input field uses a HTML5 email type check -->
 
@@ -16,7 +16,7 @@
                            placeholder="E-mail" required style="margin-bottom: 2px"/>
 
                     <input id="login_input_password_new" class="form-control" type="password" name="user_password_new"
-                           pattern=".{6,}" required autocomplete="off" placeholder="Podaj hasło" style="margin-bottom: 2px"/>
+                           pattern=".{6,}" required autocomplete="off" placeholder="Podaj hasło" title="Minimum 6 znaków"  style="margin-bottom: 2px"/>
 
                     <input id="login_input_password_repeat" class="form-control" type="password"
                            name="user_password_repeat" pattern=".{6,}" required autocomplete="off"

@@ -4,8 +4,10 @@
  * Class registration
  * handles the user registration
  */
+include_once'views/popup.php';
 class Registration
 {
+
     /**
      * @var object $db_connection The database connection
      */
@@ -92,11 +94,12 @@ class Registration
                 $query_check_user_name = $this->db_connection->query($sql);
 
                 if ($query_check_user_name->num_rows == 1) {
+                    new Popup("Ta nazwa użytkownika jest już zajęta", "index.php");
                     $this->errors[] = "Sorry, that username / email address is already taken.";
                 } else {
                     // write new user's data into database
-                    $sql = "INSERT INTO users (user_name, user_password_hash, user_email)
-                            VALUES('" . $user_name . "', '" . $user_password_hash . "', '" . $user_email . "');";
+                    $sql = "INSERT INTO users (user_name, user_password_hash, user_email, registry_date)
+                            VALUES('$user_name', '$user_password_hash', '$user_email',now())";
                     $query_new_user_insert = $this->db_connection->query($sql);
 
                     // if user has been added successfully
@@ -112,7 +115,7 @@ class Registration
                     }
                 }
             } else {
-                new Popup("Problem z połaczeniem do bazy danych", "'index.php'");
+                new Popup("Problem z połaczeniem do bazy danych", "index.php");
              //   $this->errors[] = "Sorry, no database connection.";
             }
         } else {
