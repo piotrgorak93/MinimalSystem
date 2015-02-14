@@ -45,6 +45,7 @@ class Login
     {
         // create/read session, absolutely necessary
         session_start();
+        $this->checkIfLogged();
         if ($param==="logout"){
             $this->doLogout();
             exit();
@@ -184,4 +185,17 @@ class Login
         // default return
         return false;
     }
+
+    /** checks if user is logged by checking currentUsers table in database
+     *
+     */
+    public function checkIfLogged(){
+        if (isset($_SESSION['user_name'])){
+            echo $_SESSION['user_name'];
+        }
+            else
+            echo "logged";
+        }
+
+
 }
