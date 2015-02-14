@@ -58,11 +58,13 @@ class Login
 
     /** function saves current user's data to database
      * @param $user_name
+     * @param $user_email
      */
-    public function addToCurrentLogged($user_name){
-        $sql = "INSERT INTO currentUsers (name, time)
-                            VALUES('$user_name',now() )";
-        $query_new_user_insert = $this->getDbConnection()->query($sql);
+    public function addToCurrentLogged($user_name, $user_email){
+       $sql = "INSERT INTO currentUsers (name, time, email)
+                            VALUES('$user_name',now(),'$user_email' )";
+        //$query_new_user_insert = $this->getDbConnection()->query($sql);
+       $this->getDbConnection()->query($sql);
 
 
     }
@@ -102,7 +104,6 @@ class Login
 
                 // escape the POST stuff
                 $user_name = $this->getDbConnection()->real_escape_string($_POST['user_name']);
-
                 // database query, getting all the info of the selected user (allows login via email address in the
                 // username field)
                 $sql = "SELECT user_name, user_email, user_password_hash
@@ -124,7 +125,15 @@ class Login
                         $_SESSION['user_name'] = $result_row->user_name;
                         $_SESSION['user_email'] = $result_row->user_email;
                         $_SESSION['user_login_status'] = 1;
-                        $this->addToCurrentLogged($user_name);
+                        $user_name2 = $this->getDbConnection()->real_escape_string($_POST['user_name']);
+                        $sql2 = "SELECT user_email FROM users WHERE user_name= '". $user_name2 ."';";
+                        $res = $this->getDbConnection()->query($sql2);
+
+                        $my_id_array=mysqli_fetch_assoc($res);
+                        $user_email=$my_id_array['user_email'];
+
+
+                        $this->addToCurrentLogged($user_name, $user_email);
                     } else {
                         new Popup("Błedne hasło","index.php");
                       //  $this->errors[] = "Złe hasło.";
