@@ -64,7 +64,7 @@ class Login
      * @param $user_email
      */
     public function addToCurrentLogged($user_name, $user_email){
-        if($this->isInCurrentUsersTable()){
+        if(!$this->isInCurrentUsersTable()){
         $address=get_client_ip();
        $sql = "INSERT INTO currentUsers (name, time, email, ip_address)
                             VALUES('$user_name',now(),'$user_email','$address')";
