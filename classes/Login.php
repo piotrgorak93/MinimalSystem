@@ -4,6 +4,7 @@
  * handles the user's login and logout process
  */
 include 'views/popup.php';
+include 'config/functions.php';
 class Login
 {
 
@@ -45,11 +46,8 @@ class Login
     {
         // create/read session, absolutely necessary
         session_start();
-        $this->checkIfLogged();
-        if ($param==="logout"){
-            $this->doLogout();
-            exit();
-        }
+
+
         // check the possible login actions:
         // if user tried to log out (happen when user clicks logout button)
         if (isset($_GET["logout"])) {
@@ -66,13 +64,20 @@ class Login
      * @param $user_email
      */
     public function addToCurrentLogged($user_name, $user_email){
-       $sql = "INSERT INTO currentUsers (name, time, email)
-                            VALUES('$user_name',now(),'$user_email' )";
+        if($this->isInCurrentUsersTable()){
+        $address=get_client_ip();
+       $sql = "INSERT INTO currentUsers (name, time, email, ip_address)
+                            VALUES('$user_name',now(),'$user_email','$address')";
         //$query_new_user_insert = $this->getDbConnection()->query($sql);
        $this->getDbConnection()->query($sql);
+        }
 
 
     }
+
+    /** function removes current user's data from database
+     * @param $username
+     */
     public function removeFromCurrentLogged($username){
         $connection= new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -89,6 +94,12 @@ class Login
      */
     public function dologinWithPostData()
     {
+        $is_logged=$this->checkIfLogged();
+        if ($is_logged){
+            new Popup("Jesteś już zalogowany","");
+            exit();
+
+        }
         // check login form contents
         if (empty($_POST['user_name'])) {
             $this->errors[] = "Username field was empty.";
@@ -186,16 +197,26 @@ class Login
         return false;
     }
 
-    /** checks if user is logged by checking currentUsers table in database
-     *
-     */
+
     public function checkIfLogged(){
         if (isset($_SESSION['user_name'])){
-            echo $_SESSION['user_name'];
+            return true;
         }
             else
-            echo "logged";
+            return false;
         }
+    public function isInCurrentUsersTable(){
+        $search = $_SESSION['user_name'] ;
+        $sql_query ="SELECT * FROM currentUsers WHERE name= '". $search ."';";
+       // $this->setDbConnection(new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME));
+        $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        $result_of_login_check = $connection->query($sql_query);
+        if ($result_of_login_check->num_rows == 0) {
+            return false;
+        }
+        else
+            return true;
+    }
 
 
 }

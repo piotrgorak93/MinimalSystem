@@ -28,6 +28,7 @@
                         <th>Login</th>
                         <th>Data zalogowania</th>
                         <th>E-mail</th>
+                        <th>Adres IP</th>
                     </tr>
                     </thead>
                     <tbody id="users"></tbody>

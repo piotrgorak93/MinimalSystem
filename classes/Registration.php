@@ -7,7 +7,23 @@
 include_once'views/popup.php';
 class Registration
 {
+    private $ip_address = null;
 
+    /**
+     * @return null
+     */
+    public function getIpAddress()
+    {
+        return $this->ip_address;
+    }
+
+    /**
+     * @param null $ip_address
+     */
+    public function setIpAddress($ip_address)
+    {
+        $this->ip_address = $ip_address;
+    }
     /**
      * @var object $db_connection The database connection
      */
@@ -31,6 +47,24 @@ class Registration
             $this->registerNewUser();
         }
     }
+    function get_client_ip() {
+        $ipaddress = '';
+        if (getenv('HTTP_CLIENT_IP'))
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        else if(getenv('HTTP_X_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        else if(getenv('HTTP_X_FORWARDED'))
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        else if(getenv('HTTP_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        else if(getenv('HTTP_FORWARDED'))
+            $ipaddress = getenv('HTTP_FORWARDED');
+        else if(getenv('REMOTE_ADDR'))
+            $ipaddress = getenv('REMOTE_ADDR');
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
 
     /**
      * handles the entire registration process. checks all error possibilities
@@ -39,23 +73,32 @@ class Registration
     private function registerNewUser()
     {
         if (empty($_POST['user_name'])) {
-            $this->errors[] = "Empty Username";
+            //$this->errors[] = "Empty Username";
+            new Popup("Pusta nazwa użytkownika", "");
         } elseif (empty($_POST['user_password_new']) || empty($_POST['user_password_repeat'])) {
-            $this->errors[] = "Empty Password";
+            //$this->errors[] = "Empty Password";
+            new Popup("Puste hasło", "");
         } elseif ($_POST['user_password_new'] !== $_POST['user_password_repeat']) {
-            $this->errors[] = "Password and password repeat are not the same";
+            //$this->errors[] = "Password and password repeat are not the same";
+            new Popup("Hasła się nie zgadzają", "");
         } elseif (strlen($_POST['user_password_new']) < 6) {
-            $this->errors[] = "Password has a minimum length of 6 characters";
+            //$this->errors[] = "Password has a minimum length of 6 characters";
+            new Popup("Hasło musi mieć przynajmniej 6 znaków długości", "");
         } elseif (strlen($_POST['user_name']) > 64 || strlen($_POST['user_name']) < 2) {
-            $this->errors[] = "Username cannot be shorter than 2 or longer than 64 characters";
+           // $this->errors[] = "Username cannot be shorter than 2 or longer than 64 characters";
+            new Popup("Nazwa użytkownika nie może być krótsza niż 2 i dłuższa niż 64 znaki", "");
         } elseif (!preg_match('/^[a-z\d]{2,64}$/i', $_POST['user_name'])) {
-            $this->errors[] = "Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters";
+            //$this->errors[] = "Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters";
+            new Popup("Nazwa użytkownika może zawierać litery i cyfry", "");
         } elseif (empty($_POST['user_email'])) {
-            $this->errors[] = "Email cannot be empty";
+            //$this->errors[] = "Email cannot be empty";
+            new Popup("Email nie moze być pusty", "");
         } elseif (strlen($_POST['user_email']) > 64) {
-            $this->errors[] = "Email cannot be longer than 64 characters";
+            //$this->errors[] = "Email cannot be longer than 64 characters";
+            new Popup("Email nie może być dłuższy niż 64 znaki", "");
         } elseif (!filter_var($_POST['user_email'], FILTER_VALIDATE_EMAIL)) {
-            $this->errors[] = "Your email address is not in a valid email format";
+           // $this->errors[] = "Your email address is not in a valid email format";
+            new Popup("Email jest w błednym formacie", "");
         } elseif (!empty($_POST['user_name'])
             && strlen($_POST['user_name']) <= 64
             && strlen($_POST['user_name']) >= 2
@@ -95,11 +138,13 @@ class Registration
 
                 if ($query_check_user_name->num_rows == 1) {
                     new Popup("Ta nazwa użytkownika jest już zajęta", "index.php");
-                    $this->errors[] = "Sorry, that username / email address is already taken.";
+                    //$this->errors[] = "Sorry, that username / email address is already taken.";
                 } else {
                     // write new user's data into database
-                    $sql = "INSERT INTO users (user_name, user_password_hash, user_email, registry_date)
-                            VALUES('$user_name', '$user_password_hash', '$user_email',now())";
+                    $address = $this->get_client_ip();
+                    echo $address;
+                    $sql = "INSERT INTO users (user_name, user_password_hash, user_email, registry_date, ip_address)
+                            VALUES('$user_name', '$user_password_hash', '$user_email',now(), '$address')";
                     $query_new_user_insert = $this->db_connection->query($sql);
 
                     // if user has been added successfully

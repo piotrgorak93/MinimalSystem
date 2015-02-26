@@ -11,7 +11,7 @@
  * DB_USER: user for your database. the user needs to have rights for SELECT, UPDATE, DELETE and INSERT.
  * DB_PASS: the password of the above user
  */
-define("DB_HOST", "localhost");
-define("DB_NAME", "baza");
-define("DB_USER", "user");
-define("DB_PASS", "pass");
+define("DB_HOST", "sql.s22.vdl.pl");
+define("DB_NAME", "pgorak93_mzk");
+define("DB_USER", "pgorak93_reader");
+define("DB_PASS", "zaq12wsx");
