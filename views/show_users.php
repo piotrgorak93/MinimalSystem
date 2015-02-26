@@ -8,7 +8,10 @@
 ?>
 <!-- jQuery function inserts the content of "new Admin()" into element with #users id -->
 <script>function showUsers() {
-        $("#users").html("<?php new Admin()?>");
+        $("#users").html("<?php $logged = new Admin(); $logged->showLogged()?>");
+    }</script>
+<script>function showRegisteredUsers() {
+        $("#registered").html("<?php $registered = new Admin();$registered->showRegistered()?>");
     }</script>
 <div class="jumbotron" style="background: papayawhip">
 
@@ -35,6 +38,24 @@
                 </table>
             </div>
             <button type="button" class="btn btn-info" onclick="showUsers()">Pobierz dane</button>
+        <p></p>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Zarejestrowani użytkownicy: </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Login</th>
+                    <th>Data zarejestrowania</th>
+                    <th>E-mail</th>
+                    <th>Adres IP</th>
+                </tr>
+                </thead>
+                <tbody id="registered"></tbody>
+            </table>
+        </div>
+        <button type="button" class="btn btn-info" onclick="showRegisteredUsers()">Pobierz dane</button>
             <p><a href="index.php?logout">Wyloguj się</a></p>
         </div>
 </div>
